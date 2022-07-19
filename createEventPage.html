@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Event Page</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Beginner&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    
+    <header id="top-header">
+      <h1 id="header-text">Create Events</h1>
+      <button id="create-new" onclick="onClickNew();">+New</button>
+    </header>
+
+    <nav id="list-nav">
+      <!-- <button id="list" onclick="">List</button> -->
+      <a id="list" href="index.html">List</a>
+    </nav>
+
+    <nav id="form-nav">
+      <!-- <button id="form-button" onclick="changeModeToForm()">Form</button> -->
+      <button id="form-button"onclick="requestForm()">Form</button>
+    </nav>
+
+    <div id="container">
+
+      <form id="cont-form">
+        <div class="col">
+          <label for="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Event Name..."
+            oninput ="checkNameAndDate();"
+          />
+        </div>
+        <div class="col">
+          <label for="text-area">Description:</label>
+          <textarea
+            id="text-area"
+            name="text-area"
+            placeholder="Details about the event..."
+          ></textarea>
+        </div>
+        <div class="col">
+          <label for="date">Date:</label>
+          <input type="date" id="date" name="date" oninput ="checkNameAndDate();"/>
+        </div>
+
+        <div class="col">
+          <a href="index.html" class="cancel">Cancel</a>
+          <input type="submit" value="Add" id="add-save"/>
+        </div>
+      </form>
+    </div>
+    <script type="module" src="./dbController.js"></script>
+    <script src="javascript.js"></script>
+  </body>
+</html>
