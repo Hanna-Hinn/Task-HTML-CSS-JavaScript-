@@ -27,6 +27,7 @@ var firebaseConfig = {
 };
 
 // Variables
+const app = initializeApp(firebaseConfig);
 var db = getDatabase(); //Initializing the database
 
 var data;
