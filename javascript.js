@@ -1,3 +1,5 @@
+//Deciding the Mode based on the URL
+//Fetching the parameters on the URL
 var url = window.location.pathname;
 var filename = url.substring(url.lastIndexOf("/") + 1);
 let urlHref = window.location.href;
@@ -22,6 +24,7 @@ if (formMode === "save" && mode === "form") {
   checkFormMode();
 }
 
+//This function will change the Page style and document based on the mode
 function checkMode() {
   if (mode === "list") {
     document.getElementById("list").style.backgroundColor = "yellow";
@@ -39,8 +42,8 @@ function checkMode() {
     document.getElementById("form-button").style.borderRadius = "50%";
   }
 }
-// Add Or Save
 
+//This function will change the page style and document based on which form mode is running
 function checkFormMode() {
   if (formMode == "add") {
     document.getElementById("header-text").innerHTML = "Create Events";
@@ -54,12 +57,14 @@ function checkFormMode() {
   document.getElementById("add-save").disabled = true;
 }
 
-// checkFormMode();
-
+//This is an onClick Function that will open the form page in "add" mode
 function onClickNew() {
   window.open("./createEventPage.html?mode=add", "_self");
 }
 
+//This function will add eventListerner to the div with class="item"
+//So that when the user clicks on an event card
+//The function will open form page filled with the event details filled
 function clickOnItem() {
   const collection = document.getElementsByClassName("item");
 
@@ -68,27 +73,13 @@ function clickOnItem() {
       // do something
       var eventId = collection[i].getElementsByTagName("p")[1].innerHTML;
       console.log(eventId);
-      window.open(
-        "./createEventPage.html?mode=save&id=" + eventId,
-        "_self"
-      );
+      window.open("./createEventPage.html?mode=save&id=" + eventId, "_self");
     });
   }
 }
 
-function requestForm() {
-
-  window.open(
-    "./createEventPage.html?mode=add",
-    "_self"
-  );
-}
-
-function requestNewForm() {
-  window.open("./createEventPage.html?mode=add", "_self");
-}
-
-
+//This is a delay for adding the event Listener
+//Because the database needs some time connecting.
 var delayInMilliseconds = 2000; //2 second
 
 setTimeout(function () {
@@ -96,15 +87,21 @@ setTimeout(function () {
   clickOnItem();
 }, delayInMilliseconds);
 
-
-
+//This is function will disable and enable the submit button in the form based on if the name and date are filled or not
 function checkNameAndDate() {
   let name = document.getElementById("name").value;
   let date = document.getElementById("date").value;
 
-  if ( name != "" && name != null && name!=undefined && date != "" && date != null && date != undefined ){
+  if (
+    name != "" &&
+    name != null &&
+    name != undefined &&
+    date != "" &&
+    date != null &&
+    date != undefined
+  ) {
     document.getElementById("add-save").disabled = false;
-  }else {
+  } else {
     document.getElementById("add-save").disabled = true;
   }
 }

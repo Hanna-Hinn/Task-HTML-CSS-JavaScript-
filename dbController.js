@@ -27,16 +27,17 @@ var firebaseConfig = {
 };
 
 // Variables
-var app = initializeApp(firebaseConfig);
-var db = getDatabase();
-var data;
-var arr = [];
+var db = getDatabase(); //Initializing the database
 
-var url = window.location.pathname;
-var filename = url.substring(url.lastIndexOf("/") + 1);
+var data;
+var arr = []; // Array of objects that will contain the events
+
+var url = window.location.pathname; //URL of the Page
+var filename = url.substring(url.lastIndexOf("/") + 1);//Will return the document Name, Ex: index.html
 
 var mode;
 
+//Code to check which Mode are we in based on the URL
 if (filename == "index.html") {
   mode = "list";
 } else {
@@ -45,6 +46,7 @@ if (filename == "index.html") {
 
 
 
+//code that will add an event listener to the Submit Button in the Form
 function callSubmitForm(arr){
   if(mode == "form"){
     document.getElementById("add-save").addEventListener("click", submitForm);
@@ -53,26 +55,29 @@ function callSubmitForm(arr){
 
 
 
+//The Part of the code that will reference the database and READ the data 
 var dbRef = ref(db);
 get(child(dbRef, "events/"))
   .then(function feedback(snapshot) {
     if (snapshot.exists()) {
-      data = snapshot.val();
+      data = snapshot.val();//Reading the data
       for (var i = 1; i < data.length; i++) {
-        var obj = {
+        var obj = { // Obj that will represent each event
           id: i,
           eventName: data[i].eventName,
           description: data[i].description,
           date: data[i].date,
         };
-        arr.push(obj);
+        arr.push(obj); // pushing the objects in the Array
       }
 
-      if (mode == "list") {
+      if (mode == "list") {//If the mode is list then it will draw the Events
         for (var i = 0; i < arr.length; i++) {
           drawEvent(arr[i]);
         }
       } else {
+        //Getting the parameters of the URL so we can Decide which mode of form are we in
+        //We have 2 modes of form ( "add" // "save" )
         var urlHref = window.location.href;
         var params = new URL(urlHref).searchParams;
         var paraId = params.get("id");
@@ -80,12 +85,11 @@ get(child(dbRef, "events/"))
         if (formMode == null) {
           formMode = "add";
         }
-
         if (formMode === "save" && mode === "form") {
-          console.log(paraId);
           var obj = readReturnId(arr, paraId);
 
           if (obj != undefined) {
+            //Filling the form with the Event details we clicked on
             document.getElementById("name").value = obj.eventName;
             document.getElementById("text-area").innerHTML = obj.description;
             document.getElementById("date").value = deConvertDate(obj.date);
@@ -103,12 +107,17 @@ get(child(dbRef, "events/"))
       alert("NO DATA FOUND");
     }
   })
-  // .catch(function error(error) {
-  //   alert("UnSuccessFull" + error);
-  // });
+  .catch(function error(error) {
+    alert("UnSuccessFull" + error);
+  });
 
 //Functions
 
+//This event will draw(add elements) the Events in the Div with id="container"
+//It will also check the Date for each event and color it based on
+// Red --> Past event
+// blue --> present event
+// purple --> Future event
 function drawEvent(obj) {
   var container = document.getElementById("container");
   var div = document.createElement("div");
@@ -127,7 +136,7 @@ function drawEvent(obj) {
   container.appendChild(div);
 
   var today = new Date();
-  var formattedNumber = (today.getMonth() + 1).toLocaleString("en-US", {
+  var formattedNumber = (today.getMonth() + 1).toLocaleString("en-US", { // this will make the days in 2 digital format, Ex: 07
     minimumIntegerDigits: 2,
     useGrouping: false,
   });
@@ -135,7 +144,7 @@ function drawEvent(obj) {
     today.getFullYear() + "-" + formattedNumber + "-" + today.getDate();
 
     
-  
+  // This is the part of the code that will color the events
     let objDate = deConvertDate(obj.date);
   if (objDate == currDate) {
     div.style.backgroundColor = "blue";
@@ -149,6 +158,7 @@ function drawEvent(obj) {
   }
 }
 
+//This is will change the date from dayName Month dayNum Year(Mun Jul 07 2022) to YYYY-MM-DD
 function deConvertDate(date) {
   var tmp = new Date(date);
 
@@ -162,6 +172,10 @@ function deConvertDate(date) {
   return newDate;
 }
 
+//This is the function responsible for reading and updating the events in the database
+//If the eventID already exists it will Update
+//If the eventID does not exists and new it will add
+//Its a feature or implemented in the firebase
 function writeAndUpdate(eventId, name, description, date) {
   set(ref(db, "events/" + eventId), {
     eventName: name,
@@ -177,6 +191,7 @@ function writeAndUpdate(eventId, name, description, date) {
 }
 
 
+//This will return the obj that contains a certain id
 function readReturnId(arr, id) {
   console.log(id);
   for (var j = 0; j < arr.length; j++) {
@@ -187,7 +202,8 @@ function readReturnId(arr, id) {
 }
 
 
-
+//The function that is responsible for Saving or Adding the Events in the database
+//Based on the form modes
 function submitForm() {
   if (formMode == "save") {
     var urlHref = window.location.href;
@@ -199,7 +215,6 @@ function submitForm() {
     var date = formatDate(oldDate);
     var description = document.getElementById("text-area").value;
     writeAndUpdate(index, eventName, description, date);
-    window.open("index.html", "_self");
   } else if (formMode == "add") {
     var newIndex = arr.length+1;
     var eventName = document.getElementById("name").value;
@@ -207,11 +222,10 @@ function submitForm() {
     var newDate = formatDate(oldDate);
     var description = document.getElementById("text-area").value;
     writeAndUpdate(newIndex, eventName, description, newDate);
-    window.open("index.html", "_self");
   }
 }
 
-
+//This function will change the date format from YYYY-MM-DD to dayName Month dayNum Year(Mun Jul 07 2022)
 function formatDate(date) {
   var weekday = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
   var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
