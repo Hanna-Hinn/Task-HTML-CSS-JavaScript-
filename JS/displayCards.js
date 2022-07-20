@@ -1,9 +1,11 @@
 import { data } from "./service.js";
 
-var arr = [];
+var arr = [];//Array of objects that will have the Data from the database
 
+//checks the mode before Running
 if ((formMode == "list")) {
 
+    //Doing the required changes for the list
     document.getElementById("list").style.backgroundColor = "yellow";
     document.getElementById("list").style.borderRadius = "50%";
     document.getElementById("form-button").style.backgroundColor =
@@ -12,7 +14,7 @@ if ((formMode == "list")) {
     document.getElementById("header-text").innerHTML = "Events";
     document.getElementById("create-new").style.display = "block";
 
-
+  //Reading the data
   data.then(function feedback(snapshot) {
     if (snapshot.exists()) {
       var data = snapshot.val(); //Reading the data
@@ -27,18 +29,20 @@ if ((formMode == "list")) {
         arr.push(obj); // pushing the objects in the Array
       }
 
+      //Drawing the Event Cards
       for (var i = 0; i < arr.length; i++) {
         drawEvent(arr[i]);
       }
-    } else {
+    } else { //If the Firebase is empty
       alert("NO DATA FOUND");
     }
-  });
-  //   .catch(function error(error) {
-  //     alert("UnSuccessFull" + error);
-  //   });
+  }) //If any errors happen
+    .catch(function error(error) {
+      alert("UnSuccessFull" + error);
+    });
 }
 
+//Function that will dynamically build the event cards
 function drawEvent(obj) {
   var container = document.getElementById("container");
   var div = document.createElement("div");
@@ -86,8 +90,8 @@ function drawEvent(obj) {
     div.style.color = "white";
   }
 
+  // after making the cards we add onClick event listener
   div.addEventListener("click", function (event) {
-    // do something
     var eventId = div.getElementsByTagName("p")[1].innerHTML;
     window.open("../index.html?mode=save&id=" + eventId, "_self");
   });

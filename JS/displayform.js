@@ -1,8 +1,10 @@
-import { data, sett, dbRef, db } from "./service.js";
+import { data, sett, dbRef, db } from "./service.js";//importing required variables from the database
 
+//Adding onclick event listeners for the form and +New button
 document.getElementById("form-button").addEventListener("click", onClickForm);
 document.getElementById("create-new").addEventListener("click", onClickForm);
 
+//Making the changes required for the form mode
 function onClickForm() {
   var formHtml =
     '<form id="cont-form"> <div class="col"> <label for="name"> Name: </label> <input type="text"id="name" name="name" placeholder="Event Name..." oninput ="checkNameAndDate();"/></div><div class="col"><label for="text-area"> Description: </label> <textarea id="text-area" name="text-area" placeholder="Details about the event..."></textarea> </div> <div class="col"> <label for="date"> Date: </label> <input type="date" id="date" name="date" oninput ="checkNameAndDate();"/> </div> <div class="col"> <a href="index.html" class="cancel"> Cancel </a> <input type="submit" value="Add" id="add-save" disabled/> </div>';
@@ -29,10 +31,15 @@ function onClickForm() {
   document.getElementById("add-save").style.cursor = "default";
 }
 
-var arr = [];
+/*Note: I forgot to tell you But when calling the already defined array in the displayCards.js
+  it did not return any data so i re made it here also,
+  and in case if the user went to the form mode directly.
+*/
+var arr = [];//Array of objects that will have the data saved in it
 
+//This part of the code where it will read and add or Save the Data
 if (mode == "form") {
-  onClickForm();
+  onClickForm();//Do the required changes
   data.then(function feedback(snapshot) {
     if (snapshot.exists()) {
       var data = snapshot.val(); //Reading the data
@@ -47,6 +54,7 @@ if (mode == "form") {
         arr.push(obj); // pushing the objects in the Array
       }
 
+      //Checking the URL and Reading the eventId from it as a parameter
       var urlHref = window.location.href;
       var params = new URL(urlHref).searchParams;
       var paraId = params.get("id");
@@ -73,6 +81,11 @@ if (mode == "form") {
   });
 };
 
+/*
+  The function that will write new event in the database if the it does not exists
+  It will Update if the Id exists4
+  Note: The eventId is sequentially saved in the database
+*/
 function writeAndUpdate(eventId, name, description, date) {
   sett(dbRef(db, "events/" + eventId), {
     eventName: name,
@@ -96,6 +109,8 @@ function readReturnId(arr, id) {
   }
 }
 
+//This function will add the event listener to the add/save button with the submitForm function=
+//And remove the default properties of the form
 function callSubmitForm(arr) {
   var submit_form = document.getElementById("cont-form");
   submit_form.onsubmit = function (e) {

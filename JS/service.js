@@ -30,6 +30,6 @@ var firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export var db = getDatabase(); //Initializing the database
 
-export var dbRef = ref;
-export var data = get(child(dbRef(db), "events/"));
-export var sett = set;
+export var dbRef = ref; //Making the reference for the database
+export var data = get(child(dbRef(db), "events/"));//Getting the childs (data) that are inside events in the Real-time database
+export var sett = set; //Making the set function
