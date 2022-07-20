@@ -3,7 +3,9 @@
   <head>
     <title>Event Page</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./CSS/general.css" />
+    <link rel="stylesheet" href="./CSS/displayCards.css" />
+    <link rel="stylesheet" href="./CSS/displayfrom.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Beginner&display=swap" rel="stylesheet">
@@ -12,20 +14,22 @@
   <body>
     <header id="top-header">
       <h1 id="header-text">Events</h1>
-      <a id="create-new" href="createEventPage.html">+New</a>
+      <button id="create-new" onclick="onClickNew();">+New</button>
     </header>
 
     <nav id="list-nav">
-      <button id="list">List</button>
+      <button id="list" onclick="onclickList();">List</button>
     </nav>
 
     <nav id="form-nav">
-      <a id="form-button" href="createEventPage.html">Form</a>
+      <button id="form-button" onclick="onClickNew();">Form</button>
     </nav>
 
     <div id="container">
     </div>
-    <script type="module" src="./dbController.js"></script>
-    <script src="javascript.js"></script>
+    <script type="text/javascript" src="./JS/index.js"></script>
+    <script type="module" src="./JS/service.js"></script>
+    <script type="module" src="./JS/displayCards.js"></script>
+    <script type="module" src="./JS/displayform.js"></script>
   </body>
 </html>
