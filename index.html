@@ -4,7 +4,7 @@
     <title>Event Page</title>
     <meta charset="UTF-8" />
     <!-- Adding the Required stylesheets alongside with the font links -->
-    <link rel="stylesheet" href="./CSS/general.css" />
+    <link rel="stylesheet" href="./CSS/style.css" />
     <link rel="stylesheet" href="./CSS/displayCards.css" />
     <link rel="stylesheet" href="./CSS/displayfrom.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,19 +14,19 @@
 
   <body>
     <!-- Top Header Div that contains a Head and a button  -->
-    <header id="top-header">
-      <h1 id="header-text">Events</h1>
-      <button id="create-new" onclick="onClickNew();">+New</button>
+    <header class="top-header">
+      <h1 class="header-text">Events</h1>
+      <button class="create-new">+New</button>
     </header>
 
     <!-- Nav that will include the List button -->
-    <nav id="list-nav">
-      <button id="list" onclick="onclickList();">List</button>
+    <nav class="list-nav">
+      <button class="list-button">List</button>
     </nav>
 
     <!-- Nav that will include the form button -->
-    <nav id="form-nav">
-      <button id="form-button" onclick="onClickNew();">Form</button>
+    <nav class="form-nav">
+      <button class="form-button">Form</button>
     </nav>
 
     <!-- Container that will have the contain the Event cards and the form built dynamically in it -->
@@ -37,7 +37,8 @@
     <!-- Required scripts -->
     <script type="text/javascript" src="./JS/index.js"></script>
     <script type="module" src="./JS/service.js"></script>
-    <script type="module" src="./JS/displayCards.js"></script>
     <script type="module" src="./JS/displayform.js"></script>
+    <script type="module" src="./JS/displayCards.js"></script>
+    
   </body>
 </html>

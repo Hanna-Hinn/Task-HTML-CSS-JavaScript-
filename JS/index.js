@@ -1,32 +1,9 @@
 //Index.js this file contains functions that will be used in other javascript files
-//It will also determine the mode ("list" Or "form")
 
-//This Part of the Code will read the URL to check the mode
-//If theres no mode it will be by default "list"
-//If there is a mode it will read it and assign it
-/*URL : if { index.html (no mode defined) --> mode="list" || index.html?mode=list --> mode="list" || index.html?mode=form --> mode="form" || 
-index.html?mode="save" --> mode="form" and formMode="save" || index.html?mode="add" --> mode="form" and formMode="add"}*/
+//Mode Var that will determine the mode where it will be initialized as "list"
 var mode = "list";
-var formMode = "list";
-var urlHref = window.location.href;
-var params = new URL(urlHref).searchParams; //search for parameters in the URL
-if (params.get("mode") != null) {
-  formMode = params.get("mode");
-} else {
-  formMode = "list";
-}
-var name = params.get("id");
-
-if (
-  formMode == "list" ||
-  formMode == null ||
-  formMode == undefined ||
-  formMode == ""
-) {
-  mode = "list";
-} else {
-  mode = "form";
-}
+var formMode = "add";
+var eventId;
 
 //This function will change the date format from dayName Month dayNum Year(Mun Jul 07 2022) to YYYY-MM-DD
 function deConvertDate(date) {
@@ -78,10 +55,6 @@ function convertToMilliSeconds(date) {
   return milliseconds;
 }
 
-//Onclick event function When the user clicks on the list button
-function onclickList() {
-  window.open("./index.html?mode=list", "_self");
-}
 
 /*
   Event function that will keep track of the input name and date
@@ -108,7 +81,3 @@ function checkNameAndDate() {
   }
 }
 
-//Onclick Event function for the +New and form button
-function onClickNew() {
-  window.open("./index.html?mode=add", "_self");
-}

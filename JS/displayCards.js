@@ -1,46 +1,55 @@
 import { data } from "./service.js";
+import { clickOnForm } from "./displayform.js";
 
-var arr = [];//Array of objects that will have the Data from the database
 
-//checks the mode before Running
-if ((formMode == "list")) {
 
-    //Doing the required changes for the list
-    document.getElementById("list").style.backgroundColor = "yellow";
-    document.getElementById("list").style.borderRadius = "50%";
-    document.getElementById("form-button").style.backgroundColor =
-      "transparent";
-    document.getElementById("form-button").style.border = "none";
-    document.getElementById("header-text").innerHTML = "Events";
-    document.getElementById("create-new").style.display = "block";
+if (mode === "list") {
+  onClickList();
+}
 
-  //Reading the data
-  data.then(function feedback(snapshot) {
-    if (snapshot.exists()) {
-      var data = snapshot.val(); //Reading the data
-      for (var i = 1; i < data.length; i++) {
-        var obj = {
-          // Obj that will represent each event
-          id: i,
-          eventName: data[i].eventName,
-          description: data[i].description,
-          date: formatDate(data[i].date),
-        };
-        arr.push(obj); // pushing the objects in the Array
+document.getElementsByClassName("list-button")[0].onclick = function () {
+  onClickList();
+};
+function onClickList() {
+  var arr = []; //Array of objects that will have the Data from the database
+  if (document.getElementById("cont-form") != undefined) {
+    document.getElementById("cont-form").style.display = "none";
+  }
+
+  document.getElementsByClassName("list-button")[0].classList.add("selected");
+  document.getElementsByClassName("form-button")[0].classList.remove("selected");
+  document.getElementsByClassName("header-text")[0].innerHTML = "Events";
+  document.getElementsByClassName("create-new")[0].style.display = "block";
+
+  data
+    .then(function feedback(snapshot) {
+      if (snapshot.exists()) {
+        var data = snapshot.val(); //Reading the data
+        for (var i = 1; i < data.length; i++) {
+          var obj = {
+            // Obj that will represent each event
+            id: i,
+            eventName: data[i].eventName,
+            description: data[i].description,
+            date: formatDate(data[i].date),
+          };
+          arr.push(obj); // pushing the objects in the Array
+        }
+
+        //Drawing the Event Cards
+        for (var i = 0; i < arr.length; i++) {
+          drawEvent(arr[i]);
+        }
+      } else {
+        //If the Firebase is empty
+        alert("NO DATA FOUND");
       }
-
-      //Drawing the Event Cards
-      for (var i = 0; i < arr.length; i++) {
-        drawEvent(arr[i]);
-      }
-    } else { //If the Firebase is empty
-      alert("NO DATA FOUND");
-    }
-  }) //If any errors happen
+    }) //If any errors happen
     .catch(function error(error) {
       alert("UnSuccessFull" + error);
     });
 }
+//Reading the data
 
 //Function that will dynamically build the event cards
 function drawEvent(obj) {
@@ -67,12 +76,11 @@ function drawEvent(obj) {
     useGrouping: false,
   });
 
-  var formattedDay = (today.getDate()).toLocaleString("en-US", {
+  var formattedDay = today.getDate().toLocaleString("en-US", {
     // this will make the days in 2 digital format, Ex: 07
     minimumIntegerDigits: 2,
     useGrouping: false,
   });
-
 
   var currDate =
     today.getFullYear() + "-" + formattedNumber + "-" + formattedDay;
@@ -92,7 +100,9 @@ function drawEvent(obj) {
 
   // after making the cards we add onClick event listener
   div.addEventListener("click", function (event) {
-    var eventId = div.getElementsByTagName("p")[1].innerHTML;
-    window.open("../index.html?mode=save&id=" + eventId, "_self");
+    
+    eventId = div.getElementsByTagName("p")[1].innerHTML;
+    formMode = "save";
+    clickOnForm();
   });
 }
