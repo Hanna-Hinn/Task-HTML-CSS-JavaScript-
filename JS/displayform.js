@@ -1,27 +1,33 @@
 import { data, sett, dbRef, db } from "./service.js"; //importing required variables from the database
+import { onClickList } from "./displayCards.js";
 
-//Adding onclick event listeners for the form and +New button
+/*Note: I forgot to tell you But when calling the already defined array in the displayCards.js
+  it did not return any data so i re made it here also,
+  and in case if the user went to the form mode directly.
+*/
+var arr = []; //Array of objects that will have the data saved in it
+var formMode;
+
+//Will add the event Listeners to the form-button and create-new button
 document
   .getElementsByClassName("form-button")[0]
   .addEventListener("click", onClickFormAdd);
 document
   .getElementsByClassName("create-new")[0]
   .addEventListener("click", onClickFormAdd);
-/*Note: I forgot to tell you But when calling the already defined array in the displayCards.js
-  it did not return any data so i re made it here also,
-  and in case if the user went to the form mode directly.
-*/
-var arr = []; //Array of objects that will have the data saved in it
-
 
 function onClickFormAdd() {
-  formMode = "add";
   clickOnForm();
 }
 
+//The main function that will change the document and assgining the formMode
+export function clickOnForm(eventId) {
+  if (!eventId) {
+    formMode = "add";
+  } else {
+    formMode = "save";
+  }
 
-export function clickOnForm() {
-  mode = "form";
 
   var formHtml = `
   <form id="cont-form"> 
@@ -47,8 +53,9 @@ export function clickOnForm() {
   document.getElementById("container").innerHTML = formHtml;
 
   document.getElementsByClassName("form-button")[0].classList.add("selected");
-  document.getElementsByClassName("list-button")[0].classList.remove("selected");
-
+  document
+    .getElementsByClassName("list-button")[0]
+    .classList.remove("selected");
 
   if (formMode == "add") {
     document.getElementsByClassName("header-text")[0].innerHTML =
@@ -78,10 +85,9 @@ export function clickOnForm() {
           arr.push(obj); // pushing the objects in the Array
         }
 
-        //Checking the URL and Reading the eventId from it as a parameter
-        if (formMode === "save" && mode === "form") {
+        if (formMode === "save") {
           var obj = readReturnId(arr, eventId);
-          callSubmitForm(arr);
+          callSubmitForm(eventId);
           if (obj != undefined) {
             //Filling the form with the Event details we clicked on
             document.getElementById("name").value = obj.eventName;
@@ -89,12 +95,12 @@ export function clickOnForm() {
             document.getElementById("date").value = deConvertDate(obj.date);
             document.getElementById("add-save").disabled = false;
           }
-        } else if (formMode === "add" && mode === "form") {
+        } else if (formMode === "add") {
           document.getElementById("name").value = null;
-            document.getElementById("text-area").innerHTML = "";
-            document.getElementById("date").value = undefined;
-            document.getElementById("add-save").disabled = true;
-          callSubmitForm(arr);
+          document.getElementById("text-area").innerHTML = "";
+          document.getElementById("date").value = undefined;
+          document.getElementById("add-save").disabled = true;
+          callSubmitForm(eventId);
         }
       }
     })
@@ -105,7 +111,7 @@ export function clickOnForm() {
 
 /*
   The function that will write new event in the database if the it does not exists
-  It will Update if the Id exists4
+  It will Update if the Id exists
   Note: The eventId is sequentially saved in the database
 */
 function writeAndUpdate(eventId, name, description, date) {
@@ -124,41 +130,39 @@ function writeAndUpdate(eventId, name, description, date) {
 
 //This will return the obj that contains a certain id
 function readReturnId(arr, id) {
-
-  var found = arr.find(element => element.id.toString() === id);
+  var found = arr.find((element) => element.id.toString() === id);
 
   return found;
 }
 
 //This function will add the event listener to the add/save button with the submitForm function=
 //And remove the default properties of the form
-function callSubmitForm(arr) {
+function callSubmitForm(eventId) {
   var submit_form = document.getElementById("cont-form");
   submit_form.onsubmit = function (e) {
     e.preventDefault();
   };
-  document.getElementById("add-save").addEventListener("click", submitForm);
+  document.getElementById("add-save").addEventListener("click", function () {
+    submitForm(eventId);
+  });
 }
 
 //The function that is responsible for Saving or Adding the Events in the database
 //Based on the form modes
-function submitForm() {
+function submitForm(eventId) {
   if (formMode == "save") {
-    var urlHref = window.location.href;
-    var params = new URL(urlHref).searchParams;
-    var id = params.get("id");
-    var index = readReturnId(arr, id)["id"];
+    var index = readReturnId(arr, eventId)["id"];
     var eventName = document.getElementById("name").value;
     var date = document.getElementById("date").value;
     var description = document.getElementById("text-area").value;
     writeAndUpdate(index, eventName, description, date);
-    window.open("./index.html?mode=list", "_self");
+    onClickList();
   } else if (formMode == "add") {
     var newIndex = arr.length + 1;
     var eventName = document.getElementById("name").value;
     var date = document.getElementById("date").value;
     var description = document.getElementById("text-area").value;
     writeAndUpdate(newIndex, eventName, description, date);
-    window.open("./index.html?mode=list", "_self");
+    onClickList();
   }
 }

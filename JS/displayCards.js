@@ -1,23 +1,23 @@
 import { data } from "./service.js";
 import { clickOnForm } from "./displayform.js";
 
-
-
-if (mode === "list") {
-  onClickList();
-}
-
+//Adding event Listener to the List-button
 document.getElementsByClassName("list-button")[0].onclick = function () {
   onClickList();
 };
-function onClickList() {
+
+//Function that will run when the user clicks on the List
+export function onClickList() {
   var arr = []; //Array of objects that will have the Data from the database
   if (document.getElementById("cont-form") != undefined) {
     document.getElementById("cont-form").style.display = "none";
   }
 
+  //This part of the code will change the document and it's style
   document.getElementsByClassName("list-button")[0].classList.add("selected");
-  document.getElementsByClassName("form-button")[0].classList.remove("selected");
+  document
+    .getElementsByClassName("form-button")[0]
+    .classList.remove("selected");
   document.getElementsByClassName("header-text")[0].innerHTML = "Events";
   document.getElementsByClassName("create-new")[0].style.display = "block";
 
@@ -100,9 +100,7 @@ function drawEvent(obj) {
 
   // after making the cards we add onClick event listener
   div.addEventListener("click", function (event) {
-    
-    eventId = div.getElementsByTagName("p")[1].innerHTML;
-    formMode = "save";
-    clickOnForm();
+    var eventId = div.getElementsByTagName("p")[1].innerHTML;
+    clickOnForm(eventId);
   });
 }

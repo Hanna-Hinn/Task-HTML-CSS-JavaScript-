@@ -1,10 +1,5 @@
 //Index.js this file contains functions that will be used in other javascript files
 
-//Mode Var that will determine the mode where it will be initialized as "list"
-var mode = "list";
-var formMode = "add";
-var eventId;
-
 //This function will change the date format from dayName Month dayNum Year(Mun Jul 07 2022) to YYYY-MM-DD
 function deConvertDate(date) {
   var tmp = new Date(date);
@@ -55,24 +50,16 @@ function convertToMilliSeconds(date) {
   return milliseconds;
 }
 
-
 /*
   Event function that will keep track of the input name and date
   if the name && date is filled the save/add button will be enabled
   Otherwise disabled
 */
 function checkNameAndDate() {
-  let name = document.getElementById("name").value;
-  let date = document.getElementById("date").value;
-
-  if (
-    name != "" &&
-    name != null &&
-    name != undefined &&
-    date != "" &&
-    date != null &&
-    date != undefined
-  ) {
+  var name = document.getElementById("name").value;
+  var date = document.getElementById("date").value;
+  console.log(!name,!date);
+  if (name && date) {
     document.getElementById("add-save").disabled = false;
     document.getElementById("add-save").style.cursor = "pointer";
   } else {
