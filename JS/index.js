@@ -58,7 +58,6 @@ function convertToMilliSeconds(date) {
 function checkNameAndDate() {
   var name = document.getElementById("name").value;
   var date = document.getElementById("date").value;
-  console.log(!name,!date);
   if (name && date) {
     document.getElementById("add-save").disabled = false;
     document.getElementById("add-save").style.cursor = "pointer";

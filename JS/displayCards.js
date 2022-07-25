@@ -3,7 +3,8 @@ import { clickOnForm } from "./displayform.js";
 
 //Adding event Listener to the List-button
 document.getElementsByClassName("list-button")[0].onclick = function () {
-  onClickList();
+  onClickList(false);
+  exec = true;
 };
 
 //Function that will run when the user clicks on the List
@@ -20,6 +21,7 @@ export function onClickList() {
     .classList.remove("selected");
   document.getElementsByClassName("header-text")[0].innerHTML = "Events";
   document.getElementsByClassName("create-new")[0].style.display = "block";
+  document.getElementById("container").style.display = "grid";
 
   data
     .then(function feedback(snapshot) {
@@ -49,7 +51,6 @@ export function onClickList() {
       alert("UnSuccessFull" + error);
     });
 }
-//Reading the data
 
 //Function that will dynamically build the event cards
 function drawEvent(obj) {

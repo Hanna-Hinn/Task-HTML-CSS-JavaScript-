@@ -22,11 +22,7 @@ function onClickFormAdd() {
 
 //The main function that will change the document and assgining the formMode
 export function clickOnForm(eventId) {
-  if (!eventId) {
-    formMode = "add";
-  } else {
-    formMode = "save";
-  }
+  formMode = eventId ? 'save': 'add';
 
 
   var formHtml = `
@@ -121,11 +117,12 @@ function writeAndUpdate(eventId, name, description, date) {
     date: convertToMilliSeconds(date),
   })
     .then(function result() {
-      alert("Data stored Successfully");
+      onClickList(false);
     })
     .catch(function error(error) {
       alert("Unsuccessful, error" + error);
     });
+    
 }
 
 //This will return the obj that contains a certain id
@@ -156,13 +153,11 @@ function submitForm(eventId) {
     var date = document.getElementById("date").value;
     var description = document.getElementById("text-area").value;
     writeAndUpdate(index, eventName, description, date);
-    onClickList();
   } else if (formMode == "add") {
     var newIndex = arr.length + 1;
     var eventName = document.getElementById("name").value;
     var date = document.getElementById("date").value;
     var description = document.getElementById("text-area").value;
     writeAndUpdate(newIndex, eventName, description, date);
-    onClickList();
   }
 }
