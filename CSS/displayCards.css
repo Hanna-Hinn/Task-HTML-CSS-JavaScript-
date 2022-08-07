@@ -1,0 +1,9 @@
+/* Events (called items in the HTML document) */
+.item {
+    background-color: red;
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+    cursor: pointer;
+}
+
