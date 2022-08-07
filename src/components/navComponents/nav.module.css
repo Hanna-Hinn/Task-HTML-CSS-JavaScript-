@@ -1,0 +1,35 @@
+/* The List Design and Rules */
+.list_nav {
+  border: 1px solid black;
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+  font-size: 2rem;
+  text-align: center;
+  grid-area: list;
+  text-decoration: none;
+  color: black;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+/* The Form Design and Rules */
+.form_nav {
+  border: 1px solid black;
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+  font-size: 2rem;
+  text-align: center;
+  grid-area: form;
+  background-color: transparent;
+  text-decoration: none;
+  color: black;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+/* Selected Navigation Button */
+.active {
+  background-color: rgb(182, 182, 182);
+}

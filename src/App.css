@@ -1,0 +1,16 @@
+#root {
+  display: grid;
+  grid-template-columns: 100px repeat(2, 1fr);
+  grid-template-rows: 200px repeat(2, 1fr);
+  grid-template-areas:
+    "header header header"
+    "list body body"
+    "form body body";
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+

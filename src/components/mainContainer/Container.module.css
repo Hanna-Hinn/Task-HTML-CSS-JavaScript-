@@ -1,0 +1,16 @@
+.container {
+  padding: 0;
+  margin: 0;
+  grid-column: 2 / 4;
+  grid-row: 2 / 4;
+  color: black;
+  grid-area: body;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 100px);
+  grid-auto-rows: min-content;
+  grid-gap: 10px;
+  text-align: center;
+  overflow: auto;
+  box-shadow:  0 6px 20px 10px rgba(0, 0, 0, 0.1)
+}
+
