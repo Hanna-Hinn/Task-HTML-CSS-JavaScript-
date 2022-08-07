@@ -1,0 +1,26 @@
+/* The top Header CSS Rules and Design */
+.top_header {
+  border: 1px solid black;
+  border: none;
+  grid-column: 1 / 4;
+  grid-row: 1 / 2;
+  display: flex;
+  justify-content: space-between;
+  grid-area: header;
+  font-family: "Edu VIC WA NT Beginner", cursive;
+  width: 100%;
+  box-shadow: 1px 10px 20px 10px rgba(0, 0, 0, 0.1);
+}
+.header_text {
+  margin: 5% 0 0 5%;
+  font-size: 5em;
+}
+.create_new {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  margin: 5% 5% 0 0;
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+}

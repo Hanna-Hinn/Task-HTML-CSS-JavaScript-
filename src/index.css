@@ -1,0 +1,22 @@
+* {
+  font-family: "Edu VIC WA NT Beginner", cursive;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 254, 234, 1) 0%,
+    rgba(255, 254, 234, 1) 35%,
+    #b7e8eb 100%
+  );
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+}
